@@ -1,36 +1,27 @@
 import random
-import PySimpleGUI as sg
-import os
+import string
 
-class PassGen:
-    def __init__(self):
+def gerar_senha():
+    tamanho = int(input("Quantos caracteres você deseja na senha? "))
+    
+    usar_letras = input("Deseja incluir letras na senha? (s/n): ").lower() == 's'
+    usar_numeros = input("Deseja incluir números na senha? (s/n): ").lower() == 's'
 
-        # Layout
+    caracteres = ''
+    if usar_letras:
+        caracteres += string.ascii_letters
+    if usar_numeros:
+        caracteres += string.digits
 
-        sg.theme('Black')
-        layout = [
-            [sg.text('Site/Software', size=(10,1)),
-            sg.input(key='site', size=(20,1))],
-            [sg.Text('E-mail/Usuario', size=(10,1)), 
-            sg,input(key='usuario', size=(20, 1))],
-            [sg.Text('Quantidade de caracteres',sg.Combo(valuse=list(
-                range(30)),ke='total_chars', default_values=1, size=(3, 1)))],
-            [sg.Output(size=(32, 5))],
-            [sg.Button('Gerar Senha')]
-        ]
-        # Declarar janela
-        self.janela = sg.Window('password Generator', layout)
-      
-    def Inicias(self):
-        while True:
-            evento, valores = self.janela.read()
-            if evento == sg.WINDOW_CLOSED:
-                break
-            if evento == 'Gerar Senha':
-                nova_senha = self.gerar_senha(valores)
-                print(nova_senha)
-                self.gerar_senha
-    def salver_senhas(self):
-        pass 
-gen = PassGen()
-gen.iniciar()
+    if not caracteres:
+        print("Você precisa escolher pelo menos letras ou números. Tente novamente.")
+        return None
+
+    senha = ''.join(random.choice(caracteres) for _ in range(tamanho))
+    return senha
+
+# Exemplo de uso
+senha_gerada = gerar_senha()
+
+if senha_gerada:
+    print("Senha gerada:", senha_gerada)
